@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Type;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TypeFormRequest;
+use Illuminate\Support\Str;
+
 
 class TypeController extends Controller
 {
@@ -24,7 +27,8 @@ class TypeController extends Controller
    */
   public function create()
   {
-    //
+    $editForm = false;
+    return view('admin.types.form', compact('editForm'));
   }
 
   /**
@@ -32,9 +36,16 @@ class TypeController extends Controller
    *
    * @param  \Illuminate\Http\Request  $request
    */
-  public function store(Request $request)
+  public function store(TypeFormRequest $request)
   {
-    //
+    $request->validated();
+
+    $datas = $request->all();
+    $type = new Type;
+    $type->fill($datas);
+    $type->save();
+
+    return redirect()->route('admin.types.show', $type)->with('messageClass', 'alert-success')->with('message', 'Type Saved');
   }
 
   /**
@@ -54,7 +65,8 @@ class TypeController extends Controller
    */
   public function edit(Type $type)
   {
-    //
+    $editForm = true;
+    return view('admin.types.form', compact('type', 'editForm'));
   }
 
   /**
@@ -63,9 +75,15 @@ class TypeController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @param  \App\Models\Type  $type
    */
-  public function update(Request $request, Type $type)
+  public function update(TypeFormRequest $request, Type $type)
   {
-    //
+    $request->validated();
+
+    $datas = $request->all();
+    $type->fill($datas);
+    $type->save();
+
+    return redirect()->route('admin.types.show', $type)->with('messageClass', 'alert-success')->with('message', 'Type Saved');
   }
 
   /**
