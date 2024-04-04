@@ -16,4 +16,9 @@ class Project extends Model
     'git_hub',
     'image',
   ];
+
+  public function type()
+  {
+    return $this->belongsTo(Type::class);
+  }
 }
