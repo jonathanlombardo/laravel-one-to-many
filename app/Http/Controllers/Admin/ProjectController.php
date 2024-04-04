@@ -6,6 +6,7 @@ use App\Http\Requests\ProjectFormRequest;
 use App\Models\Project;
 // use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Type;
 use Illuminate\Support\Str;
 
 class ProjectController extends Controller
@@ -26,8 +27,9 @@ class ProjectController extends Controller
    */
   public function create()
   {
+    $types = Type::all();
     $editForm = false;
-    return view('admin.projects.form', compact('editForm'));
+    return view('admin.projects.form', compact('editForm', 'types'));
   }
 
   /**
@@ -68,8 +70,9 @@ class ProjectController extends Controller
    */
   public function edit(Project $project)
   {
+    $types = Type::all();
     $editForm = true;
-    return view('admin.projects.form', compact('project', 'editForm'));
+    return view('admin.projects.form', compact('project', 'editForm', 'types'));
   }
 
   /**
