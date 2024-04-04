@@ -15,7 +15,7 @@
       @csrf
       @method($editForm ? 'PATCH' : 'POST')
 
-      <div class="col-6">
+      <div class="col-4">
         <div class="form-floating">
           <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" placeholder="title" value="{{ $editForm ? ($errors->any() ? old('title') : $project->title) : old('title') }}">
           <label for="title">Project Title</label>
@@ -24,13 +24,39 @@
           @enderror
         </div>
       </div>
-      <div class="col-6">
+      <div class="col-4">
         <div class="form-floating">
           <input type="text" class="form-control @error('author') is-invalid @enderror" id="author" name="author" placeholder="author" value="{{ $editForm ? ($errors->any() ? old('author') : $project->author) : old('author') }}">
           <label for="author">Project Author</label>
           @error('author')
             <div class="invalid-feedback">{{ $message }}</div>
           @enderror
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="form-floating">
+
+          <div class="form-floating">
+            <select class="form-select @error('type_id') is-invalid @enderror" id="type_id" name="type_id" aria-label="Type select">
+              <option value="" class="d-none">Select a project type</option>
+              @foreach ($types as $type)
+                <option value="{{ $type->id }}" {{ $type->id == old('type_id', $editForm ? $project->type->id : '') ? 'selected' : '' }}>
+                  {{ $type->label }}
+                </option>
+              @endforeach
+            </select>
+            <label for="type_id">Type</label>
+            @error('type_id')
+              <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+          </div>
+
+
+
+
+
+          {{-- <input type="text" class="form-control @error('author') is-invalid @enderror" id="author" name="author" placeholder="author" value="{{ $editForm ? ($errors->any() ? old('author') : $project->author) : old('author') }}">
+          <label for="author">Project Author</label> --}}
         </div>
       </div>
       <div class="col-6">
@@ -74,6 +100,7 @@
   <script>
     const inputs = document.querySelectorAll('input');
     const textareas = document.querySelectorAll('textarea');
+    const selects = document.querySelectorAll('select');
     const errorAlertEl = document.querySelector('.error-alert');
 
     inputs.forEach((input) => {
@@ -85,6 +112,13 @@
 
     textareas.forEach((textarea) => {
       textarea.addEventListener("change", function() {
+        this.classList.remove('is-invalid')
+        errorAlertEl.classList.add('d-none')
+      })
+    });
+
+    selects.forEach((select) => {
+      select.addEventListener("change", function() {
         this.classList.remove('is-invalid')
         errorAlertEl.classList.add('d-none')
       })

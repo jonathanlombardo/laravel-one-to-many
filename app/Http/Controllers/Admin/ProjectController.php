@@ -6,6 +6,7 @@ use App\Http\Requests\ProjectFormRequest;
 use App\Models\Project;
 // use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Type;
 use Illuminate\Support\Str;
 
 class ProjectController extends Controller
@@ -16,8 +17,10 @@ class ProjectController extends Controller
    */
   public function index()
   {
+    $types_count = Type::all()->count();
+
     $projects = Project::orderBy('id', 'desc')->paginate(15);
-    return view('admin.projects.index', compact('projects'));
+    return view('admin.projects.index', compact('projects', 'types_count'));
   }
 
   /**
@@ -26,8 +29,11 @@ class ProjectController extends Controller
    */
   public function create()
   {
+    $types = Type::all();
     $editForm = false;
-    return view('admin.projects.form', compact('editForm'));
+    if ($types->count())
+      return view('admin.projects.form', compact('editForm', 'types'));
+    return redirect()->route('admin.projects.index')->with('messageClass', 'alert-warning')->with('message', 'No available type. Please create a new Project Type before.');
   }
 
   /**
@@ -68,8 +74,9 @@ class ProjectController extends Controller
    */
   public function edit(Project $project)
   {
+    $types = Type::all();
     $editForm = true;
-    return view('admin.projects.form', compact('project', 'editForm'));
+    return view('admin.projects.form', compact('project', 'editForm', 'types'));
   }
 
   /**

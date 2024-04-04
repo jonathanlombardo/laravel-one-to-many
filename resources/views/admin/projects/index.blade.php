@@ -7,12 +7,13 @@
 @section('maincontent')
   <div class="container my-5">
     @include('layouts.partials.alert_message')
-    <a href="{{ route('admin.projects.create') }}" class="btn btn-outline-primary mb-3"><i class="fa-solid fa-plus"></i> New project</a>
+    <a href="{{ route('admin.projects.create') }}" class="btn btn-outline-primary mb-3 {{ $types_count ? '' : 'disabled' }}"><i class="fa-solid fa-plus"></i> New project</a>
     <table class="table mb-5">
       <thead>
         <tr>
           <th>Title</th>
           <th>Author</th>
+          <th>Type</th>
           <th>Option</th>
         </tr>
       </thead>
@@ -21,6 +22,7 @@
           <tr>
             <td>{{ $project->title }}</td>
             <td>{{ $project->author }}</td>
+            <td>{!! $project->type->getBadge() !!}</td>
             <td class="fs-4">
               <a class="me-2 {{ $project->git_hub ? '' : 'disabled' }}" href="{{ $project->git_hub }}"><i class="fa-brands fa-github"></i></a>
               <a class="me-2" href="{{ route('admin.projects.show', $project) }}"><i class="fa-solid fa-eye"></i></a>
