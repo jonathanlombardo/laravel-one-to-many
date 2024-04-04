@@ -8,20 +8,20 @@
   <div class="container my-5">
     @include('layouts.partials.alert_message')
     <a href="{{ route('admin.types.create') }}" class="btn btn-outline-primary mb-3"><i class="fa-solid fa-plus"></i> New Type</a>
-    <table class="table mb-5">
+    <table class="table text-center mb-5">
       <thead>
         <tr>
           <th>Label</th>
           <th>Color</th>
-          <th class="text-end">Option</th>
+          <th>Option</th>
         </tr>
       </thead>
       <tbody>
         @forelse ($types as $type)
           <tr>
             <td>{{ $type->label }}</td>
-            <td>{{ $type->color }}</td>
-            <td class="fs-4 text-end">
+            <td class="fs-4"><i class="fa-solid fa-circle" style="color: {{ $type->color }}"></i></td>
+            <td class="fs-4">
               <a class="me-2" href="{{ route('admin.types.show', $type) }}"><i class="fa-solid fa-eye"></i></a>
               <a class="me-2" href="{{ route('admin.types.edit', $type) }}"><i class="fa-solid fa-pen-to-square"></i></a>
               <a class="me-2 text-danger" href="#" onclick="event.preventDefault(); document.getElementById('destroy-btn-{{ $type->id }}').click();"><i class="fa-solid fa-trash"></i></a>
