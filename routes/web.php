@@ -3,7 +3,7 @@
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\GuestController;
-use App\Http\Controllers\TypeController;
+use App\Http\Controllers\Admin\TypeController;
 use Illuminate\Support\Facades\Route;
 
 /*
