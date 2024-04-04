@@ -5,7 +5,10 @@
 
     @include('layouts.partials.alert_message')
 
-    <h1>{{ $project->title }}</h1>
+    <div class="d-flex align-items-center gap-3">
+      <h1 class="m-0">{{ $project->title }}</h1>
+      {!! $project->type->getBadge() !!}
+    </div>
     <div class="row my-5">
       <div class="col-6 text-center d-flex flex-column gap-3">
         <div>
