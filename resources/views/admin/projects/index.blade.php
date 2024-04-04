@@ -13,6 +13,7 @@
         <tr>
           <th>Title</th>
           <th>Author</th>
+          <th>Type</th>
           <th>Option</th>
         </tr>
       </thead>
@@ -21,6 +22,7 @@
           <tr>
             <td>{{ $project->title }}</td>
             <td>{{ $project->author }}</td>
+            <td>{!! $project->type->getBadge() !!}</td>
             <td class="fs-4">
               <a class="me-2 {{ $project->git_hub ? '' : 'disabled' }}" href="{{ $project->git_hub }}"><i class="fa-brands fa-github"></i></a>
               <a class="me-2" href="{{ route('admin.projects.show', $project) }}"><i class="fa-solid fa-eye"></i></a>
