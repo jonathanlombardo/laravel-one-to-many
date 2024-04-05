@@ -19,7 +19,7 @@ class ProjectSeeder extends Seeder
   public function run(Faker $faker)
   {
     $type_ids = Type::all()->pluck('id');
-    for ($i = 0; $i < 20; $i++) {
+    for ($i = 0; $i < 150; $i++) {
       $project = new Project;
       $project->title = $faker->unique()->sentence(3);
       $project->slug = Str::of($project->title)->slug('-');

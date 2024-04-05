@@ -6,24 +6,31 @@
 
 @section('maincontent')
   <div class="container my-5">
+
     @include('layouts.partials.alert_message')
-    <a href="{{ route('admin.types.create') }}" class="btn btn-outline-primary mb-3"><i class="fa-solid fa-plus"></i> New Type</a>
-    <a href="{{ route('admin.projects.create') }}" class="btn btn-outline-primary mb-3 {{ $types_count ? '' : 'disabled' }}"><i class="fa-solid fa-plus"></i> New project</a>
+
+    <div class="d-flex align-items-center gap-3 mb-4">
+      <h1 class="m-0">{{ $type->label }}</h1>
+      {!! $type->getBadge() !!}
+    </div>
+    @if ($type->description)
+      <div><strong>Description</strong></div>
+      <div class="mb-4">{{ $type->description }}</div>
+    @endif
+
     <table class="table mb-5">
       <thead>
         <tr>
           <th>Title</th>
           <th>Author</th>
-          <th>Type</th>
           <th>Option</th>
         </tr>
       </thead>
       <tbody>
-        @forelse ($projects as $project)
+        @forelse ($related_projects as $project)
           <tr>
             <td>{{ $project->title }}</td>
             <td>{{ $project->author }}</td>
-            <td>{!! $project->type->getBadge() !!}</td>
             <td class="fs-4">
               <a class="me-2 {{ $project->git_hub ? '' : 'disabled' }}" href="{{ $project->git_hub }}"><i class="fa-brands fa-github"></i></a>
               <a class="me-2" href="{{ route('admin.projects.show', $project) }}"><i class="fa-solid fa-eye"></i></a>
@@ -39,12 +46,17 @@
         @endforelse
       </tbody>
     </table>
-    {{ $projects->links() }}
+
+    {{ $related_projects->links() }}
+
+    <a href="{{ route('admin.types.index') }}" class="btn btn-link px-0">Back to Types</a>
+    <a href="{{ route('admin.dashboard') }}" class="btn btn-link px-0">Back to Dashboard</a>
+
   </div>
 @endsection
 
 @section('modals')
-  @foreach ($projects as $project)
+  @foreach ($related_projects as $project)
     <!-- Modal -->
     <div class="modal fade" id="confirm-destroy-{{ $project->id }}" tabindex="-1" aria-labelledby="confirmDestroyModal" aria-hidden="true">
       <div class="modal-dialog">
