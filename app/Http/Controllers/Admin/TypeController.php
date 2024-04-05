@@ -55,7 +55,8 @@ class TypeController extends Controller
    */
   public function show(Type $type)
   {
-    //
+    $related_projects = $type->projects()->paginate(10);
+    return view('admin.types.show', compact('type', 'related_projects'));
   }
 
   /**
