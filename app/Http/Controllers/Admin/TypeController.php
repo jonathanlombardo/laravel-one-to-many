@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\TypeDeleteRequest;
 use App\Models\Type;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -92,10 +93,19 @@ class TypeController extends Controller
    *
    * @param  \App\Models\Type  $type
    */
-  public function destroy(Type $type)
+  public function destroy(TypeDeleteRequest $request, Type $type)
   {
+    $request->validated();
+
+    $newId = $request->input('action_on_project');
+
     foreach ($type->projects as $project) {
-      $project->delete();
+      if ($newId == $type->id) {
+        $project->delete();
+      } else {
+        $project->type_id = $newId;
+        $project->save();
+      }
     }
 
     $type->delete();
