@@ -13,7 +13,7 @@
       <div class="col-6 text-center d-flex flex-column gap-3">
         <div>
           <div><strong>Author</strong></div>
-          <div>{{ $project->author }}</div>
+          <div>{{ $project->user->name }}</div>
         </div>
         <div>
           @if ($project->description)

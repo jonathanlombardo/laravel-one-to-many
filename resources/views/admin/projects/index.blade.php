@@ -22,7 +22,7 @@
         @forelse ($projects as $project)
           <tr>
             <td>{{ $project->title }}</td>
-            <td>{{ $project->author }}</td>
+            <td>{{ $project->user->name }}</td>
             <td>{!! $project->type->getBadge() !!}</td>
             <td class="fs-4">
               <a class="me-2 {{ $project->git_hub ? '' : 'disabled' }}" href="{{ $project->git_hub }}"><i class="fa-brands fa-github"></i></a>
