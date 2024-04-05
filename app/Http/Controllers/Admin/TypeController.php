@@ -7,6 +7,7 @@ use App\Models\Type;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TypeFormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 
@@ -28,6 +29,8 @@ class TypeController extends Controller
    */
   public function create()
   {
+    if (Auth::user()->role != 'admin')
+      abort(403);
     $editForm = false;
     return view('admin.types.form', compact('editForm'));
   }
@@ -39,6 +42,9 @@ class TypeController extends Controller
    */
   public function store(TypeFormRequest $request)
   {
+    if (Auth::user()->role != 'admin')
+      abort(403);
+
     $request->validated();
 
     $datas = $request->all();
@@ -56,7 +62,10 @@ class TypeController extends Controller
    */
   public function show(Type $type)
   {
-    $related_projects = $type->projects()->paginate(10);
+    $related_projects = $type->projects()->select();
+    if (Auth::user()->role != 'admin')
+      $related_projects->whereBelongsTo(Auth::user());
+    $related_projects = $related_projects->paginate(10);
     return view('admin.types.show', compact('type', 'related_projects'));
   }
 
@@ -67,6 +76,9 @@ class TypeController extends Controller
    */
   public function edit(Type $type)
   {
+    if (Auth::user()->role != 'admin')
+      abort(403);
+
     $editForm = true;
     return view('admin.types.form', compact('type', 'editForm'));
   }
@@ -79,6 +91,9 @@ class TypeController extends Controller
    */
   public function update(TypeFormRequest $request, Type $type)
   {
+    if (Auth::user()->role != 'admin')
+      abort(403);
+
     $request->validated();
 
     $datas = $request->all();
@@ -95,6 +110,9 @@ class TypeController extends Controller
    */
   public function destroy(TypeDeleteRequest $request, Type $type)
   {
+    if (Auth::user()->role != 'admin')
+      abort(403);
+
     $request->validated();
 
     $newId = $request->input('action_on_project');

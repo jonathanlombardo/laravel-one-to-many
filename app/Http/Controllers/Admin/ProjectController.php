@@ -7,6 +7,7 @@ use App\Models\Project;
 // use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Type;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class ProjectController extends Controller
@@ -19,7 +20,10 @@ class ProjectController extends Controller
   {
     $types_count = Type::all()->count();
 
-    $projects = Project::orderBy('id', 'desc')->paginate(15);
+    $projects = Project::select();
+    if (Auth::user()->role != 'admin')
+      $projects->whereBelongsTo(Auth::user());
+    $projects = $projects->orderBy('id', 'desc')->paginate(15);
     return view('admin.projects.index', compact('projects', 'types_count'));
   }
 
@@ -48,9 +52,8 @@ class ProjectController extends Controller
     $datas = $request->all();
     $project = new Project;
     $project->fill($datas);
-    if ($request['author'])
-      $project->author = $request['author'];
     $project->slug = Str::of($project->title)->slug('-');
+    $project->user_id = Auth::id();
     $project->save();
 
     return redirect()->route('admin.projects.show', $project)->with('messageClass', 'alert-success')->with('message', 'Project Saved');
@@ -64,6 +67,8 @@ class ProjectController extends Controller
    */
   public function show(Project $project)
   {
+    if ($project->user_id != Auth::id() && Auth::user()->role != 'admin')
+      abort(403);
     return view('admin.projects.show', compact('project'));
   }
 
@@ -74,6 +79,9 @@ class ProjectController extends Controller
    */
   public function edit(Project $project)
   {
+    if ($project->user_id != Auth::id() && Auth::user()->role != 'admin')
+      abort(403);
+
     $types = Type::all();
     $editForm = true;
     return view('admin.projects.form', compact('project', 'editForm', 'types'));
@@ -87,6 +95,8 @@ class ProjectController extends Controller
    */
   public function update(ProjectFormRequest $request, Project $project)
   {
+    if ($project->user_id != Auth::id() && Auth::user()->role != 'admin')
+      abort(403);
 
     $request->validated();
 
@@ -106,6 +116,9 @@ class ProjectController extends Controller
    */
   public function destroy(Project $project)
   {
+    if ($project->user_id != Auth::id() && Auth::user()->role != 'admin')
+      abort(403);
+
     $project->delete();
     return redirect()->route('admin.projects.index')->with('messageClass', 'alert-success')->with('message', 'Project deleted');
   }

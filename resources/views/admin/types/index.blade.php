@@ -15,7 +15,9 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
     @endif
-    <a href="{{ route('admin.types.create') }}" class="btn btn-outline-primary mb-3"><i class="fa-solid fa-plus"></i> New Type</a>
+    @if (Auth::User()->role == 'admin')
+      <a href="{{ route('admin.types.create') }}" class="btn btn-outline-primary mb-3"><i class="fa-solid fa-plus"></i> New Type</a>
+    @endif
     <a href="{{ route('admin.projects.create') }}" class="btn btn-outline-primary mb-3"><i class="fa-solid fa-plus"></i> New project</a>
     <table class="table text-center mb-5">
       <thead>
@@ -32,9 +34,11 @@
             <td class="fs-4"><i class="fa-solid fa-circle" style="color: {{ $type->color }}"></i></td>
             <td class="fs-4">
               <a class="me-2" href="{{ route('admin.types.show', $type) }}"><i class="fa-solid fa-eye"></i></a>
-              <a class="me-2" href="{{ route('admin.types.edit', $type) }}"><i class="fa-solid fa-pen-to-square"></i></a>
-              <a class="me-2 text-danger" href="#" onclick="event.preventDefault(); document.getElementById('destroy-btn-{{ $type->id }}').click();"><i class="fa-solid fa-trash"></i></a>
-              <button id="destroy-btn-{{ $type->id }}" type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#confirm-destroy-{{ $type->id }}"></button>
+              @if (Auth::User()->role == 'admin')
+                <a class="me-2" href="{{ route('admin.types.edit', $type) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                <a class="me-2 text-danger" href="#" onclick="event.preventDefault(); document.getElementById('destroy-btn-{{ $type->id }}').click();"><i class="fa-solid fa-trash"></i></a>
+                <button id="destroy-btn-{{ $type->id }}" type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#confirm-destroy-{{ $type->id }}"></button>
+              @endif
             </td>
           </tr>
         @empty

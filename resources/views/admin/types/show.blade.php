@@ -22,7 +22,9 @@
       <thead>
         <tr>
           <th>Title</th>
-          <th>Author</th>
+          @if (Auth::User()->role == 'admin')
+            <th>Author</th>
+          @endif
           <th>Option</th>
         </tr>
       </thead>
@@ -30,7 +32,9 @@
         @forelse ($related_projects as $project)
           <tr>
             <td>{{ $project->title }}</td>
-            <td>{{ $project->author }}</td>
+            @if (Auth::User()->role == 'admin')
+              <td>{{ $project->user->name }}</td>
+            @endif
             <td class="fs-4">
               <a class="me-2 {{ $project->git_hub ? '' : 'disabled' }}" href="{{ $project->git_hub }}"><i class="fa-brands fa-github"></i></a>
               <a class="me-2" href="{{ route('admin.projects.show', $project) }}"><i class="fa-solid fa-eye"></i></a>

@@ -15,7 +15,7 @@
       @csrf
       @method($editForm ? 'PATCH' : 'POST')
 
-      <div class="col-4">
+      <div class="col-6">
         <div class="form-floating">
           <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" placeholder="title" value="{{ $editForm ? ($errors->any() ? old('title') : $project->title) : old('title') }}">
           <label for="title">Project Title</label>
@@ -24,7 +24,7 @@
           @enderror
         </div>
       </div>
-      <div class="col-4">
+      {{-- <div class="col-4">
         <div class="form-floating">
           <input type="text" class="form-control @error('author') is-invalid @enderror" id="author" name="author" placeholder="author" value="{{ $editForm ? ($errors->any() ? old('author') : $project->author) : old('author') }}">
           <label for="author">Project Author</label>
@@ -32,8 +32,8 @@
             <div class="invalid-feedback">{{ $message }}</div>
           @enderror
         </div>
-      </div>
-      <div class="col-4">
+      </div> --}}
+      <div class="col-6">
         <div class="form-floating">
 
           <div class="form-floating">
