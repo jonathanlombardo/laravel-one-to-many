@@ -51,6 +51,8 @@
           </div>
           <div class="modal-body">
             The elimination is permanent. Would you like to delete type {{ $type->title }}?
+            <br>
+            <span class="text-danger fw-bold">Warning</span><span class="fw-bold">: All project associatet will be deleted.</span>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
