@@ -21,4 +21,11 @@ class Type extends Model
     $route = route('admin.types.show', $this);
     return "<a href='$route' class='badge type' style='background-color: $this->color'>$this->label</a>";
   }
+
+  public function getPublicBadge()
+  {
+    // $route = route('admin.types.show', $this);
+    $route = '#';
+    return "<a href='$route' class='badge type' style='background-color: $this->color'>$this->label</a>";
+  }
 }
