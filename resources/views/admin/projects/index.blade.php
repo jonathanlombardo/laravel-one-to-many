@@ -7,13 +7,17 @@
 @section('maincontent')
   <div class="container my-5">
     @include('layouts.partials.alert_message')
-    <a href="{{ route('admin.types.create') }}" class="btn btn-outline-primary mb-3"><i class="fa-solid fa-plus"></i> New Type</a>
+    @if (Auth::User()->role == 'admin')
+      <a href="{{ route('admin.types.create') }}" class="btn btn-outline-primary mb-3"><i class="fa-solid fa-plus"></i> New Type</a>
+    @endif
     <a href="{{ route('admin.projects.create') }}" class="btn btn-outline-primary mb-3 {{ $types_count ? '' : 'disabled' }}"><i class="fa-solid fa-plus"></i> New project</a>
     <table class="table mb-5">
       <thead>
         <tr>
           <th>Title</th>
-          <th>Author</th>
+          @if (Auth::User()->role == 'admin')
+            <th>Author</th>
+          @endif
           <th>Type</th>
           <th>Option</th>
         </tr>
@@ -22,7 +26,9 @@
         @forelse ($projects as $project)
           <tr>
             <td>{{ $project->title }}</td>
-            <td>{{ $project->user->name }}</td>
+            @if (Auth::User()->role == 'admin')
+              <td>{{ $project->user->name }}</td>
+            @endif
             <td>{!! $project->type->getBadge() !!}</td>
             <td class="fs-4">
               <a class="me-2 {{ $project->git_hub ? '' : 'disabled' }}" href="{{ $project->git_hub }}"><i class="fa-brands fa-github"></i></a>
