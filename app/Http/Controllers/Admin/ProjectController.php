@@ -6,6 +6,7 @@ use App\Http\Requests\ProjectFormRequest;
 use App\Models\Project;
 // use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -34,9 +35,11 @@ class ProjectController extends Controller
   public function create()
   {
     $types = Type::all();
+    $technologies = Technology::all();
+
     $editForm = false;
     if ($types->count())
-      return view('admin.projects.form', compact('editForm', 'types'));
+      return view('admin.projects.form', compact('editForm', 'types', 'technologies'));
     return redirect()->route('admin.projects.index')->with('messageClass', 'alert-warning')->with('message', 'No available type. Please create a new Project Type before.');
   }
 
@@ -83,8 +86,11 @@ class ProjectController extends Controller
       abort(403);
 
     $types = Type::all();
+    $technologies = Technology::all();
+    $projTechIds = $project->technologies->pluck('id')->toArray();
+
     $editForm = true;
-    return view('admin.projects.form', compact('project', 'editForm', 'types'));
+    return view('admin.projects.form', compact('project', 'editForm', 'types', 'technologies', 'projTechIds'));
   }
 
   /**

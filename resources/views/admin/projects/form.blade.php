@@ -59,6 +59,19 @@
           <label for="author">Project Author</label> --}}
         </div>
       </div>
+      <div class="col-12">
+        <hr>
+        <div class="row g-3">
+          @foreach ($technologies as $techology)
+            <div class="col-2">
+              <input {{ in_array($techology->id, old('techs', $editForm ? $projTechIds : [])) ? 'checked' : '' }} id="tech-{{ $techology->id }}" name="techs[]" value="{{ $techology->id }}" type="checkbox" class="form-check-input">
+              <label for="tech-{{ $techology->id }}">{{ $techology->label }}</label>
+            </div>
+          @endforeach
+        </div>
+        <hr>
+
+      </div>
       <div class="col-6">
         <div class="form-floating">
           <input type="url" class="form-control @error('git_hub') is-invalid @enderror" id="git_hub" name="git_hub" placeholder="git_hub" value="{{ $editForm ? ($errors->any() ? old('git_hub') : $project->git_hub) : old('git_hub') }}">

@@ -13,4 +13,9 @@ class Technology extends Model
   {
     return $this->belongsToMany(Project::class);
   }
+
+  public function getBadge()
+  {
+    return "<a href='#' style='color: $this->color; font-weight: bold;'>$this->label</a>";
+  }
 }
