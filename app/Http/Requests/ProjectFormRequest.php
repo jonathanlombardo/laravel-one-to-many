@@ -35,7 +35,8 @@ class ProjectFormRequest extends FormRequest
       'type_id' => 'required|exists:types,id',
       'description' => 'nullable|string',
       'git_hub' => ['nullable', 'url', $project ? Rule::unique('projects')->ignore($id) : Rule::unique('projects')],
-      'image' => 'nullable|url'
+      'image' => 'nullable|url',
+      'techs' => 'nullable|exists:technologies,id'
     ];
   }
 }
