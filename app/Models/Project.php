@@ -27,4 +27,19 @@ class Project extends Model
   {
     return $this->belongsTo(User::class);
   }
+
+  public function technologies()
+  {
+    return $this->belongsToMany(Technology::class);
+  }
+
+  public function getAllTechBadges()
+  {
+    $badges = [];
+    foreach ($this->technologies as $technology) {
+      $badges[] = $technology->getBadge();
+    }
+
+    return implode(' - ', $badges);
+  }
 }

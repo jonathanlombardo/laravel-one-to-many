@@ -6,6 +6,7 @@ use App\Http\Requests\ProjectFormRequest;
 use App\Models\Project;
 // use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -34,9 +35,11 @@ class ProjectController extends Controller
   public function create()
   {
     $types = Type::all();
+    $technologies = Technology::all();
+
     $editForm = false;
     if ($types->count())
-      return view('admin.projects.form', compact('editForm', 'types'));
+      return view('admin.projects.form', compact('editForm', 'types', 'technologies'));
     return redirect()->route('admin.projects.index')->with('messageClass', 'alert-warning')->with('message', 'No available type. Please create a new Project Type before.');
   }
 
@@ -55,6 +58,9 @@ class ProjectController extends Controller
     $project->slug = Str::of($project->title)->slug('-');
     $project->user_id = Auth::id();
     $project->save();
+
+    if (isset($request['techs']))
+      $project->technologies()->sync($request['techs']);
 
     return redirect()->route('admin.projects.show', $project)->with('messageClass', 'alert-success')->with('message', 'Project Saved');
 
@@ -83,8 +89,11 @@ class ProjectController extends Controller
       abort(403);
 
     $types = Type::all();
+    $technologies = Technology::all();
+    $projTechIds = $project->technologies->pluck('id')->toArray();
+
     $editForm = true;
-    return view('admin.projects.form', compact('project', 'editForm', 'types'));
+    return view('admin.projects.form', compact('project', 'editForm', 'types', 'technologies', 'projTechIds'));
   }
 
   /**
@@ -95,16 +104,25 @@ class ProjectController extends Controller
    */
   public function update(ProjectFormRequest $request, Project $project)
   {
+    // dump($request->all());
+    // exit;
+
     if ($project->user_id != Auth::id() && Auth::user()->role != 'admin')
       abort(403);
+
 
     $request->validated();
 
     $datas = $request->all();
     $project->fill($datas);
-    $project->author = $request['author'];
     $project->slug = Str::of($project->title)->slug('-');
     $project->save();
+
+    if (isset($request['techs'])) {
+      $project->technologies()->sync($request['techs']);
+    } else {
+      $project->technologies()->detach();
+    }
 
     return redirect()->route('admin.projects.show', $project)->with('messageClass', 'alert-success')->with('message', 'Project Updated');
   }

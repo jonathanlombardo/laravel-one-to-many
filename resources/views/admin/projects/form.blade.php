@@ -50,14 +50,23 @@
               <div class="invalid-feedback">{{ $message }}</div>
             @enderror
           </div>
-
-
-
-
-
-          {{-- <input type="text" class="form-control @error('author') is-invalid @enderror" id="author" name="author" placeholder="author" value="{{ $editForm ? ($errors->any() ? old('author') : $project->author) : old('author') }}">
-          <label for="author">Project Author</label> --}}
         </div>
+      </div>
+      <div class="col-12">
+        <hr>
+        <div class="row g-3">
+          @foreach ($technologies as $techology)
+            <div class="col-2 @error('techs') is-invalid @enderror">
+              <input {{ in_array($techology->id, old('techs', $editForm ? $projTechIds : [])) ? 'checked' : '' }} id="tech-{{ $techology->id }}" name="techs[]" value="{{ $techology->id }}" type="checkbox" class="form-check-input @error('techs') is-invalid @enderror">
+              <label class="form-check-label" for="tech-{{ $techology->id }}">{{ $techology->label }}</label>
+            </div>
+          @endforeach
+          @error('techs')
+            <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
+        </div>
+        <hr>
+
       </div>
       <div class="col-6">
         <div class="form-floating">
@@ -105,6 +114,11 @@
 
     inputs.forEach((input) => {
       input.addEventListener("input", function() {
+        this.classList.remove('is-invalid')
+        errorAlertEl.classList.add('d-none')
+      })
+
+      input.addEventListener("change", function() {
         this.classList.remove('is-invalid')
         errorAlertEl.classList.add('d-none')
       })

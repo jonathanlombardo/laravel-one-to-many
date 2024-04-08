@@ -19,6 +19,7 @@
             <th>Author</th>
           @endif
           <th>Type</th>
+          <th>Technologies</th>
           <th>Option</th>
         </tr>
       </thead>
@@ -30,6 +31,7 @@
               <td>{{ $project->user->name }}</td>
             @endif
             <td>{!! $project->type->getBadge() !!}</td>
+            <td>{!! $project->getAllTechBadges() !!}</td>
             <td class="fs-4">
               <a class="me-2 {{ $project->git_hub ? '' : 'disabled' }}" href="{{ $project->git_hub }}"><i class="fa-brands fa-github"></i></a>
               <a class="me-2" href="{{ route('admin.projects.show', $project) }}"><i class="fa-solid fa-eye"></i></a>
