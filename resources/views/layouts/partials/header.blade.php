@@ -1,7 +1,7 @@
 <header class="py-3 bg-primary text-white">
   <div class="container d-flex justify-content-between align-items-center">
 
-    <span>{{ env('APP_NAME', 'NewProject') }} Header</span>
+    <a class="h4" href="{{ route('guest.index') }}">{{ env('APP_NAME', 'NewProject') }}</a>
     <nav>
       <ul class="d-flex align-items-center gap-3">
         <li><a href="{{ route('guest.index') }}">Home</a></li>
@@ -15,6 +15,10 @@
             </li>
           @endif
         @else
+          <li><a href="{{ route('admin.projects.index') }}">Projects</a></li>
+          <li><a href="{{ route('admin.types.index') }}">Types</a></li>
+          <li><a href="{{ route('admin.technologies.index') }}">Technologies</a></li>
+
           <li class="nav-item dropdown">
             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
               {{ Auth::user()->name }}
@@ -22,8 +26,6 @@
 
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard</a>
-              <a class="dropdown-item" href="{{ route('admin.projects.index') }}">Projects</a>
-              <a class="dropdown-item" href="{{ route('admin.types.index') }}">Types</a>
               <a class="dropdown-item" href="{{ route('auth.profile.edit') }}">Profile</a>
               <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

@@ -18,6 +18,13 @@ class Technology extends Model
 
   public function getBadge()
   {
-    return "<a href='#' style='color: $this->color; font-weight: bold;'>$this->label</a>";
+    $route = route('admin.technologies.show', $this);
+    return "<a href='$route' style='color: $this->color; font-weight: bold;'>$this->label</a>";
+  }
+
+  public function getPublicBadge()
+  {
+    $route = '#';
+    return "<a href='$route' style='color: $this->color; font-weight: bold;'>$this->label</a>";
   }
 }

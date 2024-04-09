@@ -17,6 +17,7 @@
     @endif
     @if (Auth::User()->role == 'admin')
       <a href="{{ route('admin.types.create') }}" class="btn btn-outline-primary mb-3"><i class="fa-solid fa-plus"></i> New Type</a>
+      <a href="{{ route('admin.technologies.create') }}" class="btn btn-outline-primary mb-3"><i class="fa-solid fa-plus"></i> New Technologies</a>
     @endif
     <a href="{{ route('admin.projects.create') }}" class="btn btn-outline-primary mb-3"><i class="fa-solid fa-plus"></i> New project</a>
     <table class="table text-center mb-5">

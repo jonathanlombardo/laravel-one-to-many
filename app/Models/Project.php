@@ -42,4 +42,14 @@ class Project extends Model
 
     return implode(' - ', $badges);
   }
+
+  public function getAllTechPublicBadges()
+  {
+    $badges = [];
+    foreach ($this->technologies as $technology) {
+      $badges[] = $technology->getPublicBadge();
+    }
+
+    return implode(' - ', $badges);
+  }
 }

@@ -30,16 +30,10 @@
               </div>
             </div>
             <div class="card-footer text-secondary fst-italic">
-              @forelse ($project->technologies as $technology)
-                <span>
-                  {{ $technology->label }}
-                  @unless ($loop->last)
-                    -
-                  @endunless
-                </span>
-              @empty
+              {!! $project->getAllTechPublicBadges() !!}
+              @unless ($project->getAllTechPublicBadges())
                 <span>No specific technologies</span>
-              @endforelse
+              @endunless
             </div>
           </div>
         </div>
