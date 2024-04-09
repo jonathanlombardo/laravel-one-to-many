@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TechnologyFormRequest;
 use App\Models\Technology;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,7 +26,8 @@ class TechnologyController extends Controller
    */
   public function create()
   {
-    //
+    $editForm = false;
+    return view('admin.technologies.form', compact('editForm'));
   }
 
   /**
@@ -33,9 +35,16 @@ class TechnologyController extends Controller
    *
    * @param  \Illuminate\Http\Request  $request
    */
-  public function store(Request $request)
+  public function store(TechnologyFormRequest $request)
   {
-    //
+    $request->validated();
+
+    $datas = $request->all();
+    $type = new Technology;
+    $type->fill($datas);
+    $type->save();
+
+    return redirect()->route('admin.technologies.show', $type)->with('messageClass', 'alert-success')->with('message', 'Technology Saved');
   }
 
   /**
@@ -59,7 +68,8 @@ class TechnologyController extends Controller
    */
   public function edit(Technology $technology)
   {
-    //
+    $editForm = true;
+    return view('admin.technologies.form', compact('technology', 'editForm'));
   }
 
   /**
@@ -68,9 +78,15 @@ class TechnologyController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @param  \App\Models\Technology  $technology
    */
-  public function update(Request $request, Technology $technology)
+  public function update(TechnologyFormRequest $request, Technology $technology)
   {
-    //
+    $request->validated();
+
+    $datas = $request->all();
+    $technology->fill($datas);
+    $technology->save();
+
+    return redirect()->route('admin.technologies.show', $technology)->with('messageClass', 'alert-success')->with('message', 'Technology Saved');
   }
 
   /**
