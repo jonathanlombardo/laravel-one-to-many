@@ -77,7 +77,7 @@
         @endforeach
       @endif
       @if ($techs)
-        <div class="mt-4 mb-2">Type</div>
+        <div class="mt-4 mb-2">Technologies</div>
         @foreach ($techs as $tech)
           <div class="mb-2">
             <input {{ in_array($tech->id, request('filter_technologies', [])) ? 'checked' : '' }} type="checkbox" class="form-check-input" name="filter_technologies[]" id="filter-technologies-{{ $tech->id }}" value="{{ $tech->id }}">
