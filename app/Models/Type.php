@@ -24,8 +24,7 @@ class Type extends Model
 
   public function getPublicBadge()
   {
-    // $route = route('admin.types.show', $this);
-    $route = '#';
+    $route = route('guest.index', ['filter_types' => [$this->id]]);
     return "<a href='$route' class='badge type' style='background-color: $this->color'>$this->label</a>";
   }
 }
