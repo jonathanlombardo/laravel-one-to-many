@@ -29,6 +29,18 @@
                 Author: {{ $project->user->name }}
               </div>
             </div>
+            <div class="card-footer text-secondary fst-italic">
+              @forelse ($project->technologies as $technology)
+                <span>
+                  {{ $technology->label }}
+                  @unless ($loop->last)
+                    -
+                  @endunless
+                </span>
+              @empty
+                <span>No specific technologies</span>
+              @endforelse
+            </div>
           </div>
         </div>
       @empty
