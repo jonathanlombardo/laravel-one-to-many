@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\TechnologyController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\Admin\TypeController;
@@ -43,6 +44,17 @@ Route::middleware('auth')
     });
     Route::get('/types', [TypeController::class, 'index'])->name('types.index');
     Route::get('/types/{type}', [TypeController::class, 'show'])->name('types.show');
+
+    // TECHNOLOGIES ROUTES
+    Route::middleware('role.admin')->group(function () {
+      Route::post('/technologies', [TechnologyController::class, 'store'])->name('technologies.store');
+      Route::get('/technologies/create', [TechnologyController::class, 'create'])->name('technologies.create');
+      Route::patch('/technologies/{technology}', [TechnologyController::class, 'update'])->name('technologies.update');
+      Route::delete('/technologies/{technology}', [TechnologyController::class, 'destroy'])->name('technologies.destroy');
+      Route::get('/technologies/{technology}/edit', [TechnologyController::class, 'edit'])->name('technologies.edit');
+    });
+    Route::get('/technologies', [TechnologyController::class, 'index'])->name('technologies.index');
+    Route::get('/technologies/{technology}', [TechnologyController::class, 'show'])->name('technologies.show');
 
 
   });
