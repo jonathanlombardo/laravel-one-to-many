@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Technology;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TechnologyController extends Controller
 {
@@ -44,7 +45,11 @@ class TechnologyController extends Controller
    */
   public function show(Technology $technology)
   {
-    //
+    $related_projects = $technology->projects()->select();
+    if (Auth::user()->role != 'admin')
+      $related_projects->whereBelongsTo(Auth::user());
+    $related_projects = $related_projects->paginate(10);
+    return view('admin.technologies.show', compact('technology', 'related_projects'));
   }
 
   /**
