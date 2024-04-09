@@ -11,7 +11,6 @@
   </style>
 @endsection
 
-
 @section('maincontent')
   <div class="container">
     <a class="btn btn-outline-primary w-100 my-3" data-bs-toggle="offcanvas" href="#filters" role="button" aria-controls="filters">

@@ -24,7 +24,7 @@ class Technology extends Model
 
   public function getPublicBadge()
   {
-    $route = '#';
+    $route = $route = route('guest.index', ['filter_technologies' => [$this->id]]);
     return "<a href='$route' style='color: $this->color; font-weight: bold;'>$this->label</a>";
   }
 }
