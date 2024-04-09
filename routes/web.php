@@ -24,14 +24,32 @@ Route::controller(GuestController::class)
     Route::get('/', 'index')->name('index');
   });
 
-Route::middleware(['auth', 'verified'])
+Route::middleware('auth')
   ->prefix('admin')
   ->name('admin.')
   ->group(function () {
     Route::get('dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
+    // PROJECTS ROUTES
     Route::resource('projects', ProjectController::class);
-    Route::resource('types', TypeController::class);
+
+    // TYPES ROUTES
+    Route::middleware('role.admin')->group(function () {
+      Route::post('/types', [TypeController::class, 'store'])->name('types.store');
+      Route::get('/types/create', [TypeController::class, 'create'])->name('types.create');
+      Route::patch('/types/{type}', [TypeController::class, 'update'])->name('types.update');
+      Route::delete('/types/{type}', [TypeController::class, 'destroy'])->name('types.destroy');
+      Route::get('/types/{type}/edit', [TypeController::class, 'edit'])->name('types.edit');
+    });
+    Route::get('/types', [TypeController::class, 'index'])->name('types.index');
+    Route::get('/types/{type}', [TypeController::class, 'show'])->name('types.show');
+
+
   });
 
+
+
 require __DIR__ . '/auth.php';
+
+// GET|HEAD        admin/types/create .......................................................... admin.types.create › Admin\TypeController@create  
+// GET|HEAD        admin/types/create .......................................................... admin.types.create › Admin\TypeController@create  
