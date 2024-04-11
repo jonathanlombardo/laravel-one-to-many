@@ -93,7 +93,10 @@
         </div>
       </div>
       <div class="col-4">
-        <img src="{{ $project->getImgUrl() }}" alt="" class="proj-img">
+        <div class="text-end">
+          <img src="{{ $project->getImgUrl() }}" alt="" class="proj-img">
+          <button class="reset-img btn btn-link" type="button">Reset uploaded image</button>
+        </div>
       </div>
 
       <div class="col-12">
@@ -151,6 +154,7 @@
     const projImg = document.querySelector('.proj-img');
     const projImgInput = document.querySelector('.proj-img-input');
     const fbImgEl = document.querySelector('.img-fb');
+    const resetImgBtn = document.querySelector('.reset-img');
     const originalSrc = projImg.src;
 
     projImgInput.addEventListener("change", function() {
@@ -174,6 +178,12 @@
         fbImgEl.innerText = 'The image must be an image'
       }
 
+    })
+
+    resetImgBtn.addEventListener('click', function() {
+      projImg.src = originalSrc
+      projImgInput.value = null;
+      projImgInput.classList.remove('is-invalid')
     })
   </script>
 @endsection
