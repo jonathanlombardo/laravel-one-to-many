@@ -39,8 +39,9 @@ class ProjectController extends Controller
     $technologies = Technology::all();
 
     $editForm = false;
+    $project = new Project;
     if ($types->count())
-      return view('admin.projects.form', compact('editForm', 'types', 'technologies'));
+      return view('admin.projects.form', compact('editForm', 'types', 'technologies', 'project'));
     return redirect()->route('admin.projects.index')->with('messageClass', 'alert-warning')->with('message', 'No available type. Please create a new Project Type before.');
   }
 
@@ -156,6 +157,7 @@ class ProjectController extends Controller
     if ($project->user_id != Auth::id() && Auth::user()->role != 'admin')
       abort(403);
 
+    Storage::delete($project->image);
     $project->delete();
     return redirect()->route('admin.projects.index')->with('messageClass', 'alert-success')->with('message', 'Project deleted');
   }
