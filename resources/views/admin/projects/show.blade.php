@@ -32,9 +32,7 @@
         <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#confirm-destroy">Delete Project</button>
       </div>
       <div class="col-6">
-        @if ($project->image)
-          <img src="{{ $project->image }}" alt="{{ $project->title }} image">
-        @endif
+        <img src="{{ $project->getImgUrl() }}" alt="{{ $project->title }} image">
       </div>
     </div>
     <a href="{{ route('admin.projects.index') }}" class="btn btn-link">Back to Projects</a>

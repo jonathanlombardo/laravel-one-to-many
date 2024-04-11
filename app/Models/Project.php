@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Vite;
 
 class Project extends Model
 {
@@ -15,7 +16,7 @@ class Project extends Model
     'type_id',
     'description',
     'git_hub',
-    'image',
+    // 'image',
   ];
 
   public function type()
@@ -51,5 +52,14 @@ class Project extends Model
     }
 
     return implode(' - ', $badges);
+  }
+
+  public function getImgUrl()
+  {
+    if ($this->image) {
+      return "/storage/$this->image";
+    } else {
+      return "/img/projects/placeholder.jpg";
+    }
   }
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ProjectController extends Controller
@@ -52,11 +53,20 @@ class ProjectController extends Controller
   {
     $request->validated();
 
+    // dd($request->all());
+
     $datas = $request->all();
     $project = new Project;
     $project->fill($datas);
     $project->slug = Str::of($project->title)->slug('-');
     $project->user_id = Auth::id();
+
+
+    if (isset($datas['image'])) {
+      $img_path = Storage::put('uploads/projects', $datas['image']);
+      $project->image = $img_path;
+    }
+
     $project->save();
 
     if (isset($request['techs']))
@@ -116,6 +126,14 @@ class ProjectController extends Controller
     $datas = $request->all();
     $project->fill($datas);
     $project->slug = Str::of($project->title)->slug('-');
+
+    if (isset($datas['image'])) {
+      if ($project->image)
+        Storage::delete($project->image);
+      $img_path = Storage::put('uploads/projects', $datas['image']);
+      $project->image = $img_path;
+    }
+
     $project->save();
 
     if (isset($request['techs'])) {
@@ -123,6 +141,7 @@ class ProjectController extends Controller
     } else {
       $project->technologies()->detach();
     }
+
 
     return redirect()->route('admin.projects.show', $project)->with('messageClass', 'alert-success')->with('message', 'Project Updated');
   }

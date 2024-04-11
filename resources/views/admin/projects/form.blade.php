@@ -11,7 +11,7 @@
       </div>
     @endif
 
-    <form action="{{ $editForm ? route('admin.projects.update', $project) : route('admin.projects.store') }}" method="POST" class="row my-4 g-3">
+    <form enctype="multipart/form-data" action="{{ $editForm ? route('admin.projects.update', $project) : route('admin.projects.store') }}" method="POST" class="row my-4 g-3">
       @csrf
       @method($editForm ? 'PATCH' : 'POST')
 
@@ -79,8 +79,8 @@
       </div>
       <div class="col-6">
         <div class="form-floating">
-          <input type="url" class="form-control @error('image') is-invalid @enderror" id="image" name="image" placeholder="image" value="{{ $editForm ? ($errors->any() ? old('image') : $project->image) : old('image') }}">
-          <label for="image">Image URL</label>
+          <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" placeholder="image" value="{{ $editForm ? ($errors->any() ? old('image') : $project->image) : old('image') }}">
+          <label for="image">Image</label>
           @error('image')
             <div class="invalid-feedback">{{ $message }}</div>
           @enderror

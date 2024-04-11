@@ -23,7 +23,7 @@
       @forelse ($projects as $project)
         <div class="col-4">
           <div class="card h-100">
-            <img src="{{ $project->image }}" class="card-img-top" alt="...">
+            <img src="{{ $project->getImgUrl() }}" class="card-img-top" alt="{{ $project->title }} image">
             <div class="card-body py-3 d-flex align-items-start flex-column">
               <h5 class="card-title">{{ $project->title }}</h5>
               {!! $project->type->getPublicBadge() !!}

@@ -27,7 +27,7 @@ class ProjectSeeder extends Seeder
       $project->slug = Str::of($project->title)->slug('-');
       $project->description = $faker->paragraph(5);
       $project->git_hub = $faker->unique()->url();
-      $project->image = $faker->imageUrl(640, 480, 'preview', true, $project->slug);
+      // $project->image = $faker->imageUrl(640, 480, 'preview', true, $project->slug);
       $project->type_id = $faker->randomElement($type_ids);
       $project->user_id = $faker->randomElement($user_ids);
       // $project->author = User::find($project->user_id)->name;
