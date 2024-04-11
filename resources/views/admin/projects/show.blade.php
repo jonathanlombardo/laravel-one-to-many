@@ -31,8 +31,13 @@
         <a href="{{ route('admin.projects.edit', $project) }}" class="btn btn-outline-primary">Edit Project</a>
         <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#confirm-destroy">Delete Project</button>
       </div>
-      <div class="col-6">
+      <div class="col-6 text-end">
         <img src="{{ $project->getImgUrl() }}" alt="{{ $project->title }} image">
+        <form action="{{ route('admin.projects.destroy-img', $project) }}" method="POST">
+          @csrf
+          @method('DELETE')
+          <button class="btn btn-link text-danger">Delete image</button>
+        </form>
       </div>
     </div>
     <a href="{{ route('admin.projects.index') }}" class="btn btn-link">Back to Projects</a>

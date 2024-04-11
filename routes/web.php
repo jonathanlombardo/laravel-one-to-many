@@ -30,6 +30,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
   // PROJECTS
   Route::resource('projects', ProjectController::class);
+  Route::delete('projects/{project}/destroy-img', [ProjectController::class, 'destroyImg'])->name('projects.destroy-img');
 
   // TYPES
   Route::resource('types', TypeController::class)->middleware('role.admin')->except(['index', 'show']);

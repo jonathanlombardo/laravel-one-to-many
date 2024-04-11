@@ -161,4 +161,15 @@ class ProjectController extends Controller
     $project->delete();
     return redirect()->route('admin.projects.index')->with('messageClass', 'alert-success')->with('message', 'Project deleted');
   }
+
+  public function destroyImg(Project $project)
+  {
+    if ($project->user_id != Auth::id() && Auth::user()->role != 'admin')
+      abort(403);
+
+    Storage::delete($project->image);
+    $project->image = null;
+    $project->save();
+    return redirect()->back();
+  }
 }
